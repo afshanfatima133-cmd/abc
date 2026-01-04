@@ -41,7 +41,7 @@ const ActivityCard = () => {
       id: 6,
       title: "John Harper purchased 1-month subscription plan",
       text: "Successfully completed the subscription process",
-      profileImage: "/path/to/profile-image.jpg", // Add appropriate image path
+      profileImage: "https://randomuser.me/api/portraits/men/4.jpg", // Add appropriate image path
       date: new Date().toISOString(),
     },
   ];

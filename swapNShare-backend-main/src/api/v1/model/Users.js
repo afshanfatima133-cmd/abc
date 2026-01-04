@@ -91,7 +91,7 @@ const userSchema = new mongoose.Schema(
     businessEmail: {
       type: String,
       trim: true,
-      unique: true,
+      sparse: true, // Allow multiple null values
       match: [
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please provide a valid business email.",
@@ -123,7 +123,7 @@ const userSchema = new mongoose.Schema(
     },
     taxRegistrationNumber: {
       type: String,
-      unique: true,
+      sparse: true, // Allow multiple null values
       trim: true,
       required: function () {
         return this.role === "Vendor";

@@ -104,15 +104,18 @@ const Page = () => {
         const userId = Cookies.get("id");
         const userRole = Cookies.get("role");
 
+        // API returns data in response.data, not response.products
+        const productsData = response.data || [];
+
         if (userRole === "vendor") {
           // Filter products - show only the vendor's own products
-          const filteredProducts = response.products.filter(
-            (product: any) => product.vendorId?._id === userId
+          const filteredProducts = productsData.filter(
+            (product: any) => product.vendor?._id === userId
           );
           setProducts(filteredProducts.reverse());
         } else {
           // Admin or other role - show all products
-          setProducts(response.products.reverse());
+          setProducts(productsData.reverse());
         }
       }
     } catch (error) {
