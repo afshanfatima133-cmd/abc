@@ -231,7 +231,7 @@ const Page: React.FC = () => {
         });
       }
 
-      if (response.success === true) {
+      if (response?.success === true) {
         showToast(
           `Category ${data._id ? "updated" : "created"} successfully`,
           "success"
@@ -240,10 +240,18 @@ const Page: React.FC = () => {
         setItemToEdit(null);
         doGetCategories();
       } else {
-        showToast("Operation failed", "error");
+        showToast(
+          response?.message || response?.error || "Operation failed",
+          "error"
+        );
       }
-    } catch (error) {
-      showToast("An unexpected error occurred", "error");
+    } catch (error: any) {
+      showToast(
+        error?.response?.data?.message ||
+          error?.message ||
+          "An unexpected error occurred",
+        "error"
+      );
     } finally {
       hideLoader();
     }
@@ -271,7 +279,7 @@ const Page: React.FC = () => {
         response = await addCategory(formData);
       }
 
-      if (response.success === true) {
+      if (response?.success === true) {
         showToast(
           `Subcategory ${data._id ? "updated" : "created"} successfully`,
           "success"
@@ -280,10 +288,18 @@ const Page: React.FC = () => {
         setItemToEdit(null);
         doGetSubCategories();
       } else {
-        showToast("Operation failed", "error");
+        showToast(
+          response?.message || response?.error || "Operation failed",
+          "error"
+        );
       }
-    } catch (error) {
-      showToast("An unexpected error occurred", "error");
+    } catch (error: any) {
+      showToast(
+        error?.response?.data?.message ||
+          error?.message ||
+          "An unexpected error occurred",
+        "error"
+      );
     } finally {
       hideLoader();
     }
