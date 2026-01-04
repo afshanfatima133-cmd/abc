@@ -1,13 +1,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-// Helper function to get fresh auth config for each request
+// Helper: always send latest auth token (cookie first, then localStorage fallback)
 const getAuthConfig = () => {
-  const token = Cookies.get("authToken");
+  const token = Cookies.get("authToken") || (typeof window !== "undefined" ? localStorage.getItem("authToken") : "");
   return {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
   };
 };
 export const authSignUp = async (data: any) => {
