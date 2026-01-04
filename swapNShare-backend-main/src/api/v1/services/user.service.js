@@ -688,18 +688,17 @@ class UserService {
       );
     }
 
+    // Align required fields with current VendorRequest schema (seeded data uses these keys)
     const requiredFields = [
       "businessEmail",
       "businessAddress",
-      "contactNumber",
+      "phoneNumber", // stored as phoneNumber in VendorRequest
       "companyName",
-      "ownerFullName",
-      "city",
       "businessType",
       "typesOfProducts",
       "taxRegistrationNumber",
       "businessLicense",
-      "cnicNumber",
+      "cnic", // stored as cnic in VendorRequest
       "cnicFrontImage",
       "cnicBackImage",
     ];
@@ -726,10 +725,10 @@ class UserService {
       const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
       existingUser = new User({
-        name: vendor.ownerFullName,
+        name: vendor.ownerFullName || vendor.name || vendor.companyName,
         email: vendor.businessEmail,
         businessEmail: vendor.businessEmail,
-        phoneNumber: vendor.contactNumber,
+        phoneNumber: vendor.phoneNumber || vendor.contactNumber,
         address: vendor.businessAddress,
         businessAddress: vendor.businessAddress,
         city: vendor.city,
@@ -738,7 +737,7 @@ class UserService {
         typesOfProducts: vendor.typesOfProducts,
         taxRegistrationNumber: vendor.taxRegistrationNumber,
         businessLicense: vendor.businessLicense,
-        cnic: vendor.cnicNumber,
+        cnic: vendor.cnic,
         cnicFrontImage: vendor.cnicFrontImage,
         cnicBackImage: vendor.cnicBackImage,
         role: "Vendor",
@@ -756,7 +755,7 @@ class UserService {
       existingUser.typesOfProducts = vendor.typesOfProducts;
       existingUser.taxRegistrationNumber = vendor.taxRegistrationNumber;
       existingUser.businessLicense = vendor.businessLicense;
-      existingUser.cnic = vendor.cnicNumber;
+      existingUser.cnic = vendor.cnic;
       existingUser.cnicFrontImage = vendor.cnicFrontImage;
       existingUser.cnicBackImage = vendor.cnicBackImage;
       existingUser.vendorStatus = "Approved";
@@ -768,7 +767,7 @@ class UserService {
 
     await sendVendorApprovalEmail(
       vendor.businessEmail,
-      vendor.ownerFullName,
+      vendor.ownerFullName || vendor.name || vendor.companyName,
       vendor.companyName,
       randomPassword,
       isNewUser
