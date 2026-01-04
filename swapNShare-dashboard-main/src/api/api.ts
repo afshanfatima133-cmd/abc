@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 const getAuthConfig = () => {
   const token = Cookies.get("authToken");
   return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
   };
 };
 export const authSignUp = async (data: any) => {
@@ -354,7 +354,8 @@ export const addProduct = async (data: any) => {
   try {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_URL}product/create-product`,
-      data
+      data,
+      getAuthConfig() // send auth token to avoid 401
     );
     response = res?.data;
     console.log("addAdministration response from api :>> ", response);
@@ -371,7 +372,8 @@ export const updateProduct = async (id: any, data: any) => {
   try {
     const res = await axios.put(
       `${process.env.NEXT_PUBLIC_URL}product/${id}`,
-      data
+      data,
+      getAuthConfig() // send auth token to avoid 401
     );
     response = res?.data;
     console.log("addAdministration response from api :>> ", response);
